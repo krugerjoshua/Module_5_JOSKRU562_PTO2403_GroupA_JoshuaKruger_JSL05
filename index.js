@@ -12,7 +12,7 @@ const songs = [
     { title: "I'm Not in Love", artist: "10cc", genre: "Pop" },
     { title: "Fooled Around and Fell in Love", artist: "Elvin Bishop", genre: "Rock" },
     // Feel free to add even more songs
-];
+]
 
 
 // Object containing each Guardian's preferred genre
@@ -23,25 +23,46 @@ const guardians = {
     "Rocket": "Pop",
     "Groot": "R&B"
     // Add preferences for Drax, Rocket, and Groot
-};
+}
 
 // Function to generate playlist based on preferred genre
 function generatePlaylist(guardians, songs) {
     // Use the map() function to create playlists for each Guardian
     // Your code here
-    const playlist = Object.keys(guardians).map(function(guardian) {
+    return Object.keys(guardians).map(guardian => {
         const preferredGenre = guardians[guardian]
-        const playlist = songs.filter(function(song) {
-            return song.genre === preferredGenre
-        })
-        return {guardian:guardian, playlist:playlist}
+        const playlist = songs.filter(song => song.genre === preferredGenre)
+        return { guardian: guardian, playlist: playlist}
     })
-    
+    // Loop through each guardian to add to the playlist array
+    // Loop through each song in the songs array to find the preferred genre
 }
 
 // Call generatePlaylist and display the playlists for each Guardian
-generatePlaylist(guardians, songs);
+// Loop through each playlist item to add it to the webpage
+function displayPlaylists(playlists) {
+    const playlistsDiv = document.getElementById('playlists')
+    playlists.forEach(item => {
+        const guardianDiv = document.createElement('div')
+        guardianDiv.className = 'guardian-playlist'
 
-const playListDiv = document.getElementById('playlist')
-const guardianDiv = document.createElement('div')
-const guardianName = 
+        // Create and append the guardian's name
+        const guardianName = document.createElement('h2')
+        guardianName.textContent = `${item.guardian}'s Playlist`
+        guardianDiv.appendChild(guardianName)
+
+        // Create and append the list of songs
+        const songList = document.createElement('ul')
+
+        item.playlist.forEach(song => {
+            const songItem = document.createElement('li')
+            songItem.textContent = `${song.title} by ${song.artist}`
+            songList.appendChild(songItem);
+        })
+
+        guardianDiv.appendChild(songList)
+        playlistsDiv.appendChild(guardianDiv)
+    })
+}
+const playlists = generatePlaylist(guardians, songs)
+displayPlaylists(playlists)
